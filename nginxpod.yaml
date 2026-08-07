@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    apptier: nginx
+  name: deploy-web
+  namespace: production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: frontend
+      name: nginxpod
+    spec:
+      containers:
+        - name: nginxcon
+          image: nginx
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
